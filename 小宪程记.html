@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小宪程记本</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    /* 主体 */
+    
+    #todoapp {
+        padding: 20px;
+        margin: 20px auto;
+        width: 400px;
+        background-color: rgba(243, 243, 243, 0.911);
+    }
+    /* 标题 */
+    
+    #todoapp h2 {
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 40px;
+        font-weight: 400;
+        color: #b37165;
+    }
+    /* 输入框 */
+    
+    input {
+        width: 100%;
+        padding: 10px;
+        outline: 0;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 10px #eebdbd;
+    }
+    /* input 提示内容的样式修改*/
+    
+    input::placeholder {
+        font-style: italic;
+        color: #ccc;
+    }
+    /* 列表，条目*/
+    
+    .todo {
+        list-style: none;
+        padding: 15px 5px;
+        color: orchid;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-top: 0;
+    }
+    /* 序号 */
+    
+    .todo .index {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    /* 删除按钮 */
+    
+    .todo .destroy {
+        display: none;
+        float: right;
+        cursor: pointer;
+        margin-bottom: 5px;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        background-image: url(images/del.jpg);
+        background-size: 20px;
+        border: 0;
+    }
+    
+    .todo:hover .destroy {
+        display: block;
+    }
+    /* footer */
+    
+    .footer {
+        padding: 5px 10px;
+        width: 100%;
+        font-size: 12px;
+        background-color: rgba(101, 180, 101, 0.226);
+    }
+    
+    .footer .clear-completed {
+        float: right;
+        border: 0;
+    }
+    
+    .footer strong {
+        margin-right: 10px;
+    }
+    
+    .footer .clear-completed:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <div id="todoapp">
+        <!-- header 输入框 -->
+        <header class="header">
+            <!-- 标题 -->
+            <h2>小宪程记</h2>
+            <input @keyup.enter="add" v-model="inputValue" type="text" autofocus="autofocus" autocomplete="off" placeholder="请输入任务">
+        </header>
+        <!-- 列表区域 -->
+        <section class="main">
+            <ul class="todo-list">
+                <li v-for="(item,index) in list" class="todo">
+                    <div class="view">
+                        <!-- 放索引值 index ，序号 -->
+                        <span class="index">{{ index+1 }}</span>
+                        <!-- 放数据 item -->
+                        <label for=""> {{ item }}</label>
+                        <!-- 删除；传参，传入当前索引值 -->
+                        <button @click="remove(index)" class="destroy"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <!-- 统计，清空 -->
+        <footer class="footer">
+            <span class="todo-count">
+                <strong v-show="list.length!=0"> {{ list.length }}</strong>
+                items
+            </span>
+            <!-- 清空所有条目 -->
+            <button @click="clear" class="clear-completed">
+                Clear
+            </button>
+        </footer>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: "#todoapp",
+        data: {
+            list: ["敲代码", "首胜", "打扫房间"],
+            inputValue: "好好学习"
+        },
+        methods: {
+            // 添加条目
+            add: function() {
+                this.list.push(this.inputValue);
+            },
+            // 删除条目
+            remove: function(index) {
+                this.list.splice(index, 1);
+            },
+            // 清空所有条目
+            clear: function() {
+                this.list = [];
+            }
+        }
+    })
+</script>
+
+</html>
